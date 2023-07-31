@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Text, View, FlatList, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, View, FlatList, StyleSheet, TouchableNativeFeedback } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { GlobalStyles } from '../constants/GlobalStyles';
-import { useGetAccountsQuery } from '../app/api/account';
+import { GlobalStyles } from '../../constants/GlobalStyles';
+import { useGetAccountsQuery } from '../../app/api/account';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TransactionsScreen } from './TransactionsScreen';
-import { AccountsScreenProps, AccountsStackParamsList } from '../navigation/types';
-import { formatCurrency } from '../util/formatters/currency-formatter';
-import { LoadingIndicator } from '../components/common/LoadingIndicator';
+import { AccountsScreenProps, AccountsStackParamsList } from '../../navigation/types';
+import { formatCurrency } from '../../util/formatters/currency-formatter';
+import { LoadingIndicator } from '../common/LoadingIndicator';
+import { NoItemsIndicator } from '../common/NoItemsIndicator';
 
 const AccountsStack = createNativeStackNavigator<AccountsStackParamsList>();
 
@@ -36,8 +37,8 @@ export const AccountsScreen = ({ navigation }: AccountsScreenProps) => {
     return <LoadingIndicator />;
   }
 
-  if (!accounts) {
-    return <Text>No accounts</Text>
+  if (!accounts || !accounts.length) {
+    return <NoItemsIndicator text={"No accounts"} />;
   }
 
   return (
@@ -48,7 +49,7 @@ export const AccountsScreen = ({ navigation }: AccountsScreenProps) => {
           <AccountCard
             accountName={item.name}
             accountBalance={item.totalBalance}
-            onPress={() => { navigation.navigate("Transactions", { account: item }) }}
+            onPress={() => { navigation.navigate("Transactions", { account: item })}}
           />
         )}
       />
@@ -71,22 +72,24 @@ export const AccountCard = (props: AccountCardProps) => {
       borderWidth: 0.5,
       borderRadius: 8,
       padding: 12,
-      marginHorizontal: 12,
-      marginTop: 12,
       flexDirection: "column",
     },
   })
 
   return (
-    <View>
-      <TouchableHighlight onPress={props.onPress}>
+    <View style={{
+        marginHorizontal: 12,
+        marginTop: 12,
+      }}
+    >
+      <TouchableNativeFeedback onPress={props.onPress}>
         <View style={styles.accountCard}>
           <Text style={[GlobalStyles.fontRegular]}>{props.accountName}</Text>
           <Text style={[GlobalStyles.fontSemiBold, { fontSize: 20 }]}>
             {formatCurrency(props.accountBalance).formattedValue}
           </Text>
         </View>
-      </TouchableHighlight>
+      </TouchableNativeFeedback>
     </View>
   )
 }

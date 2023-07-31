@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Text, View, SectionList, StyleSheet, TouchableHighlight } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { GlobalStyles } from '../constants/GlobalStyles';
-import { useGetTransactionsQuery } from '../app/api/account';
-import { TransactionsScreenProps } from '../navigation/types';
-import { formatCurrency } from '../util/formatters/currency-formatter';
-import { formatDate } from '../util/formatters/date-formatter';
-import { LoadingIndicator } from '../components/common/LoadingIndicator';
+import { GlobalStyles } from '../../constants/GlobalStyles';
+import { useGetTransactionsQuery } from '../../app/api/account';
+import { TransactionsScreenProps } from '../../navigation/types';
+import { formatCurrency } from '../../util/formatters/currency-formatter';
+import { formatDate } from '../../util/formatters/date-formatter';
+import { LoadingIndicator } from '../common/LoadingIndicator';
+import { NoItemsIndicator } from '../common/NoItemsIndicator';
 
 export const TransactionsScreen = ({ route, navigation }: TransactionsScreenProps) => {
   const { colors } = useTheme();
@@ -29,18 +30,14 @@ export const TransactionsScreen = ({ route, navigation }: TransactionsScreenProp
   })
 
   const { account } = route.params;
-  const { data: transactions, error, isLoading } = useGetTransactionsQuery(account?.id);
-
-  if (error) {
-    return <Text>Error</Text>;
-  }
+  const { data: transactions, isLoading } = useGetTransactionsQuery(account?.id);
 
   if (isLoading) {
     return <LoadingIndicator />
   }
 
-  if (!transactions) {
-    return <Text>No transactions</Text>;
+  if (!transactions || !transactions.length) {
+    return <NoItemsIndicator text={"No transactions"} />;
   }
 
   // Group transactions into sections by date 

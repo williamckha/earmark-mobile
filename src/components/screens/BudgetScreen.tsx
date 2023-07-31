@@ -1,59 +1,8 @@
 import * as React from 'react';
 import { Text, View, SectionList, StyleSheet } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import { GlobalStyles } from '../constants/GlobalStyles';
+import { GlobalStyles } from '../../constants/GlobalStyles';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const BUDGET_CATEGORY_GROUPS = [
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-  {
-    title: "Food",
-    data: ["Groceries", "Restaurants", "Drinks"]
-  },
-]
 
 const BudgetStack = createNativeStackNavigator();
 
@@ -91,7 +40,8 @@ export const BudgetScreen = () => {
   return (
     <View>
       <SectionList
-        sections={BUDGET_CATEGORY_GROUPS}
+        stickySectionHeadersEnabled
+        sections={[{ title: "Lorem ipsum", data: ["Test", "Test"] }]}
         keyExtractor={(item, index) => item + index}
         renderSectionHeader={({ section: { title } }) => (
           <Text style={[GlobalStyles.fontSemiBold, styles.sectionHeader]}>{title}</Text>
@@ -105,7 +55,6 @@ export const BudgetScreen = () => {
             ]}
           >{item}</Text>
         )}
-        stickySectionHeadersEnabled
       />
     </View>
   );
