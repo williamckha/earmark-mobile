@@ -2,8 +2,9 @@ import { Text, FlatList, StyleSheet, View } from "react-native";
 import { useGetCategoriesQuery } from "../../app/api/category";
 import { LoadingIndicator } from "../common/LoadingIndicator";
 import { GlobalStyles } from "../../constants/GlobalStyles";
-import { ListItem } from "../common/ListItem";
+import { ListItem } from "../common/list/ListItem";
 import { NoItemsIndicator } from "../common/NoItemsIndicator";
+import { SelectionList } from "./SelectionList";
 
 export const TransactionCategoryScreen = () => {
   const { data: categories, isLoading } = useGetCategoriesQuery();
@@ -17,17 +18,8 @@ export const TransactionCategoryScreen = () => {
   }
   
   return (
-    <View>
-      <FlatList 
-        data={categories}
-        keyExtractor={(category) => category.id.toString()}
-        renderItem={({ item: category, index }) => (
-          <ListItem 
-            index={index} 
-            title={category.name} 
-          />
-        )}
-      />
-    </View>
+    <SelectionList
+      data={categories} 
+    />
   );
 }

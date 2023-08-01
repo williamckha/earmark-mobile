@@ -21,7 +21,8 @@ export const TransactionNavigator = () => {
       ...TransitionPresets.SlideFromRightIOS,
       safeAreaInsets: { top: 0 },
       headerShown: true,
-      headerTitleStyle: { ...GlobalStyles.fontBold, fontSize: 20 }
+      headerTitleStyle: { ...GlobalStyles.fontBold, fontSize: 20 },
+      headerStyle: { borderColor: "lightgray", borderBottomWidth: 0.5 }
     }), []
   );
 

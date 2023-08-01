@@ -1,12 +1,17 @@
 import { Text, FlatList, StyleSheet, View } from "react-native";
-import { ListItem } from "../common/ListItem";
+import { ListItem } from "../common/list/ListItem";
 import { useGetPayeesQuery } from "../../app/api/payee";
 import { GlobalStyles } from "../../constants/GlobalStyles";
 import { LoadingIndicator } from "../common/LoadingIndicator";
 import { NoItemsIndicator } from "../common/NoItemsIndicator";
+import { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { SelectionList } from "./SelectionList";
+import { useState } from "react";
 
 export const TransactionPayeeScreen = () => {
   const { data: payees, isLoading } = useGetPayeesQuery();
+
+  const [selectedPayeeId, setSelectedPayeeId] = useState(null);
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -17,17 +22,9 @@ export const TransactionPayeeScreen = () => {
   }
   
   return (
-    <View>
-      <FlatList 
-        data={payees}
-        keyExtractor={(payee) => payee.id.toString()}
-        renderItem={({ item: payee, index }) => (
-          <ListItem 
-            index={index} 
-            title={payee.name} 
-          />
-        )}
-      />
-    </View>
+    <SelectionList
+      data={payees} 
+      setSelected={setSelectedPayeeId}
+    />
   );
 }

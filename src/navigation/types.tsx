@@ -1,10 +1,10 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { Account } from "../app/api/account";
+import { StackScreenProps } from "@react-navigation/stack";
 
 export type AccountsStackParamsList = {
   Accounts: undefined,
   Transactions: { account: Account }
 };
 
-export type AccountsScreenProps = NativeStackScreenProps<AccountsStackParamsList, "Accounts">;
-export type TransactionsScreenProps = NativeStackScreenProps<AccountsStackParamsList, "Transactions">;
+export type AccountsScreenProps = StackScreenProps<AccountsStackParamsList, "Accounts">;
+export type TransactionsScreenProps = StackScreenProps<AccountsStackParamsList, "Transactions">;

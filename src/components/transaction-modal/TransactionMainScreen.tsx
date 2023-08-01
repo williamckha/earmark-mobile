@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { Text, TextInput, View, StyleSheet, FlatList, TouchableHighlight } from "react-native";
+import { Text, TextInput, View, StyleSheet, FlatList, TouchableHighlight, Button, Pressable } from "react-native";
 import { GlobalStyles } from "../../constants/GlobalStyles";
-import { ListItem } from "../common/ListItem";
+import { ListItem } from "../common/list/ListItem";
+import { DefaultTheme, useTheme } from "@react-navigation/native";
 
 export const TransactionMainScreen = ({ navigation }) => {
   const [transactionAmount, setTransactionAmount] = useState("0.00");
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.transactionAmountInputContainer}>
         <TextInput
           style={[GlobalStyles.fontSemiBold, styles.transactionAmountInput]}
@@ -18,8 +19,7 @@ export const TransactionMainScreen = ({ navigation }) => {
       </View>
       <FlatList 
         data={NavigationItems}
-        keyExtractor={(item) => item.id}
-        style={styles.navigationFlatList}
+        keyExtractor={(item) => item.title}
         renderItem={({ item, index }) => (
           <ListItem 
             index={index} 
@@ -29,45 +29,64 @@ export const TransactionMainScreen = ({ navigation }) => {
           />
         )}
       />
+      <Pressable 
+        style={({ pressed }) => [
+          styles.addTransactionButton, 
+          pressed ? styles.addTransactionButtonPressed : []
+        ]}
+      >
+        <Text style={styles.addTransactionButtonText}>Save Transaction</Text>
+      </Pressable>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "flex-start",
+  },
   transactionAmountInputContainer: {
     alignItems: "center",
     padding: 8,
-    backgroundColor: "white"
+    backgroundColor: "white",
+    borderColor: "lightgray",
+    borderBottomWidth: 0.5,
   },
   transactionAmountInput: {
     fontSize: 32,
   },
-  navigationFlatList: {
-    borderColor: "lightgray",
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
+  addTransactionButton: {
+    backgroundColor: DefaultTheme.colors.primary,
+    margin: 12,
+    padding: 12,
+    alignItems: "center",
+    borderRadius: 8
+  },
+  addTransactionButtonPressed: {
+    opacity: 0.6
+  },
+  addTransactionButtonText: {
+    ...GlobalStyles.fontSemiBold,
+    color: "white"
   }
 })
 
 const NavigationItems = [
   {
-    id: "1",
     title: "Payee",
     route: "TransactionPayeeScreen"
   },
   {
-    id: "2",
     title: "Category",
     route: "TransactionCategoryScreen"
   },
   {
-    id: "3",
     title: "Account",
-    route: "TransactionCategoryScreen"
+    route: ""
   },
   {
-    id: "4",
     title: "Date",
-    route: "TransactionCategoryScreen"
+    route: ""
   }
 ]

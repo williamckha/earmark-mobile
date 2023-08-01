@@ -9,8 +9,9 @@ import { AccountsScreenProps, AccountsStackParamsList } from '../../navigation/t
 import { formatCurrency } from '../../util/formatters/currency-formatter';
 import { LoadingIndicator } from '../common/LoadingIndicator';
 import { NoItemsIndicator } from '../common/NoItemsIndicator';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const AccountsStack = createNativeStackNavigator<AccountsStackParamsList>();
+const AccountsStack = createStackNavigator<AccountsStackParamsList>();
 
 export const AccountsStackScreen = () => {
   return (
